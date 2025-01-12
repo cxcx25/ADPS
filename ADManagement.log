@@ -1,3 +1,26 @@
 [2025-01-11 04:32:17] [Error] Error in Get-DomainController: The term 'ldap.Initialize' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
 [2025-01-11 04:36:17] [Info] Using domain controller: LRADDCBEPR09.LUXGROUP.NET
 [2025-01-12 05:36:15] [Info] Using domain controller: LRADDCBEPR09.LUXGROUP.NET
+2025-01-12 06:45:25|ERROR|Error: The term 'Get-DomainCredentials' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2025-01-12 06:47:35|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 06:47:35|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 06:53:07|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 06:53:07|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 06:56:25|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 06:56:25|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 06:56:29|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 06:56:29|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:01:58|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:01:58|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:05:55|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:05:55|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:06:46|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:06:46|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:13:29|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:13:29|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:17:52|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 07:17:52|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 08:26:33|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 08:26:33|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 08:29:18|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-12 08:29:18|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
