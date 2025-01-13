@@ -1,7 +1,14 @@
+
 <#
 .SYNOPSIS
 PowerShell module for user management in Active Directory
 #>
+
+# Import required modules
+if (-not (Get-Module -Name ActiveDirectory -ListAvailable)) {
+    throw "The Active Directory module is required. Please install RSAT tools or import the AD module."
+}
+Import-Module ActiveDirectory -ErrorAction Stop
 
 # Import the functions we depend on
 . "$PSScriptRoot\Config.ps1"
@@ -13,7 +20,6 @@ function Get-UserADInfo {
         [string]$Username,
 
         [Parameter(Mandatory=$true)]
-        [ValidateSet("lux", "ess", "el")]
         [string]$Domain,
 
         [Parameter(Mandatory=$true)]
@@ -33,15 +39,6 @@ function Get-UserADInfo {
 
         $user = Get-ADUser -Identity $Username -Server $domainController -Credential $cred `
                           -Properties $properties -ErrorAction Stop
-    }
-    catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException] {
-        Write-PsLogError "User '$Username' not found in the '$Domain' domain."
-        return
-    }
-    catch {
-        Write-PsLogError "Error retrieving user information: $($_.Exception.Message)"
-        throw
-    }
 
         Write-PsLogInfo "Connected!"
 
@@ -70,14 +67,21 @@ function Get-UserADInfo {
             if ($user.LockedOut) { Write-PsLogWarning "- Account is locked." }
             if ($user.PasswordExpired) { Write-PsLogWarning "- Password is expired." }
             if (-not $user.Enabled) { Write-PsLogWarning "- Account is disabled." }
-        } else {
+        }
+        else {
             Write-PsLogInfo "User account is in good standing."
         }
     }
     catch {
-        Write-PsLogError "Error: $($_.Exception.Message)"
+        if ($_.Exception.GetType().Name -eq "ADIdentityNotFoundException") {
+            Write-PsLogError "User '$Username' not found in the '$Domain' domain."
+            return
+        }
+        Write-PsLogError "Error retrieving user information: $($_.Exception.Message)"
+        throw
     }
 }
+
 
 function Unblock-UserAccount {
     [CmdletBinding()]

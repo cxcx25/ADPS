@@ -9,11 +9,14 @@ function Get-DomainCredentials {
     param (
         [Parameter(Mandatory = $true)]
         [ValidateSet('lux', 'ess', 'el')]
-        [string]$Domain
+        [string]$Domain,
+        
+        [Parameter(Mandatory = $true)]
+        [ADConfig]$AdConfig
     )
     
     try {
-        $credFile = $global:adConfig.CredentialFile
+        $credFile = $AdConfig.CredentialFile
         if (-not (Test-Path $credFile)) {
             throw "Credentials file not found: $credFile"
         }
@@ -45,11 +48,14 @@ function Get-DomainController {
     param (
         [Parameter(Mandatory = $true)]
         [ValidateSet('lux', 'ess', 'el')]
-        [string]$Domain
+        [string]$Domain,
+
+        [Parameter(Mandatory = $true)]
+        [ADConfig]$AdConfig
     )
     
     try {
-        $domainInfo = $global:adConfig.Domains.Values | 
+        $domainInfo = $AdConfig.Domains.Values | 
                      Where-Object { $_.Alias -eq $Domain } |
                      Select-Object -First 1
 
@@ -60,7 +66,7 @@ function Get-DomainController {
         $dc = $domainInfo.DomainController
         if (-not $dc) {
             # Fallback to discovery if no DC is configured
-            $fullDomain = ($global:adConfig.Domains.GetEnumerator() | 
+            $fullDomain = ($AdConfig.Domains.GetEnumerator() | 
                          Where-Object { $_.Value.Alias -eq $Domain }).Key
             
             $dc = Get-ADDomainController -DomainName $fullDomain -Discover -NextClosestSite |
