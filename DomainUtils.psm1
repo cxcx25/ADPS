@@ -1,64 +1,26 @@
-
 <#
 .SYNOPSIS
 PowerShell module for domain management utilities
 #>
 
-function Get-DomainCredentials {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('lux', 'ess', 'el')]
-        [string]$Domain,
-        
-        [Parameter(Mandatory = $true)]
-        [ADConfig]$AdConfig
-    )
-    
-    try {
-        $credFile = $AdConfig.CredentialFile
-        if (-not (Test-Path $credFile)) {
-            throw "Credentials file not found: $credFile"
-        }
-
-        $credentials = Get-Content $credFile | ForEach-Object {
-            if ($_ -match "^$($Domain)\s*:\s*user=([^;]+);\s*password=(.+)$") {
-                @{
-                    'Username' = $matches[1].Trim()
-                    'Password' = $matches[2].Trim()
-                }
-            }
-        } | Select-Object -First 1
-
-        if (-not $credentials) {
-            throw "No credentials found for domain: $Domain"
-        }
-
-        $securePassword = ConvertTo-SecureString $credentials['Password'] -AsPlainText -Force
-        return New-Object System.Management.Automation.PSCredential ($credentials['Username'], $securePassword)
-    }
-    catch {
-        Write-PsLogError "Failed to get credentials for $Domain domain: $($_.Exception.Message)"
-        throw
-    }
+# Import required modules
+if (-not (Get-Module -Name ActiveDirectory -ListAvailable)) {
+    throw "The Active Directory module is required. Please install RSAT tools or import the AD module."
 }
+Import-Module ActiveDirectory -ErrorAction Stop
 
 function Get-DomainController {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
         [ValidateSet('lux', 'ess', 'el')]
-        [string]$Domain,
-
-        [Parameter(Mandatory = $true)]
-        [ADConfig]$AdConfig
+        [string]$Domain
     )
     
     try {
-        $domainInfo = $AdConfig.Domains.Values | 
-                     Where-Object { $_.Alias -eq $Domain } |
-                     Select-Object -First 1
-
+        # Get domain info using ADConfig helper method
+        $domainInfo = $global:adConfig.GetDomainByAlias($Domain)
+        
         if (-not $domainInfo) {
             throw "Invalid domain alias: $Domain"
         }
@@ -66,11 +28,13 @@ function Get-DomainController {
         $dc = $domainInfo.DomainController
         if (-not $dc) {
             # Fallback to discovery if no DC is configured
-            $fullDomain = ($AdConfig.Domains.GetEnumerator() | 
-                         Where-Object { $_.Value.Alias -eq $Domain }).Key
+            $fullDomainName = $global:adConfig.GetFullDomainName($Domain)
             
-            $dc = Get-ADDomainController -DomainName $fullDomain -Discover -NextClosestSite |
-                  Select-Object -First 1 -ExpandProperty HostName
+            # If still no domain found, try discovery
+            if ($fullDomainName) {
+                $dc = Get-ADDomainController -DomainName $fullDomainName -Discover -NextClosestSite |
+                      Select-Object -First 1 -ExpandProperty HostName
+            }
         }
 
         if (-not $dc) {
@@ -86,4 +50,69 @@ function Get-DomainController {
     }
 }
 
-Export-ModuleMember -Function Get-DomainCredentials, Get-DomainController
+function Test-DomainConnection {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('lux', 'ess', 'el')]
+        [string]$Domain
+    )
+    
+    try {
+        $dc = Get-DomainController -Domain $Domain
+        $maxAttempts = $global:adConfig.RetrySettings.MaxAttempts
+        $delay = $global:adConfig.RetrySettings.DelaySeconds
+
+        for ($i = 1; $i -le $maxAttempts; $i++) {
+            if (Test-Connection -ComputerName $dc -Count 1 -Quiet) {
+                Write-PsLogInfo "Successfully connected to domain controller: $dc"
+                return $true
+            }
+            
+            if ($i -lt $maxAttempts) {
+                Write-PsLogWarning "Attempt $i failed. Retrying in $delay seconds..."
+                Start-Sleep -Seconds $delay
+            }
+        }
+
+        Write-PsLogError "Failed to connect to domain controller after $maxAttempts attempts"
+        return $false
+    }
+    catch {
+        Write-PsLogError "Error testing domain connection: $($_.Exception.Message)"
+        return $false
+    }
+}
+
+function Get-DomainInfo {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('lux', 'ess', 'el')]
+        [string]$Domain
+    )
+    
+    try {
+        $domainInfo = $global:adConfig.GetDomainByAlias($Domain)
+        $fullDomainName = $global:adConfig.GetFullDomainName($Domain)
+        
+        if (-not $domainInfo -or -not $fullDomainName) {
+            throw "Domain information not found for alias: $Domain"
+        }
+
+        return [PSCustomObject]@{
+            Alias = $Domain
+            FullDomainName = $fullDomainName
+            DomainController = $domainInfo.DomainController
+            CredentialFile = $domainInfo.CredentialFile
+            IsConnected = Test-DomainConnection -Domain $Domain
+        }
+    }
+    catch {
+        Write-PsLogError "Error getting domain information: $($_.Exception.Message)"
+        throw
+    }
+}
+
+# Export the module members
+Export-ModuleMember -Function Get-DomainController, Test-DomainConnection, Get-DomainInfo

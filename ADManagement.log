@@ -24,3 +24,55 @@
 2025-01-12 08:26:33|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
 2025-01-12 08:29:18|ERROR|Failed to get credentials for lux domain: Cannot bind argument to parameter 'Path' because it is null.
 2025-01-12 08:29:18|ERROR|Error: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-14 04:43:53 [ERROR] Error: Failed to get credentials: Data at the root level is invalid. Line 1, position 1.
+2025-01-14 04:51:24 [ERROR] Error: Failed to get credentials: Data at the root level is invalid. Line 1, position 1.
+2025-01-14 04:52:16 [INFO] Connecting to luxgroup.net...
+2025-01-14 04:52:16 [INFO] Retrieving info for user: c22643
+2025-01-14 04:52:27 [INFO] Successfully retrieved user information!
+2025-01-14 04:52:27 [INFO] C22643 account is in good standing.
+2025-01-14 04:53:20 [INFO] Connecting to luxgroup.net...
+2025-01-14 04:53:20 [INFO] Retrieving info for user: c22643
+2025-01-14 04:53:25 [INFO] Successfully retrieved user information!
+2025-01-14 04:53:25 [INFO] C22643 account is in good standing.
+2025-01-14 04:54:01 [INFO] Connecting to us.essilor.pvt...
+2025-01-14 04:54:01 [INFO] Retrieving info for user: joseph.marilla
+2025-01-14 04:54:16 [ERROR] Error: Unable to contact the server. This may be because this server does not exist, it is currently down, or it does not have the Active Directory Web Services running.
+2025-01-14 04:56:13 [INFO] Connecting to us.essilor.pvt...
+2025-01-14 04:56:13 [INFO] Retrieving info for user: joseph.marilla
+2025-01-14 04:56:25 [ERROR] Error: The server has rejected the client credentials.
+2025-01-14 04:59:21 [INFO] Connecting to us.essilor.pvt...
+2025-01-14 04:59:21 [INFO] Retrieving info for user: joseph.marilla
+2025-01-14 04:59:27 [ERROR] Error: The server has rejected the client credentials.
+2025-01-14 04:59:33 [INFO] Connecting to luxgroup.net...
+2025-01-14 04:59:33 [INFO] Retrieving info for user: c22643
+2025-01-14 04:59:44 [INFO] Successfully retrieved user information!
+2025-01-14 04:59:44 [INFO] C22643 account is in good standing.
+2025-01-14 05:11:14 [INFO] Connecting to luxgroup.net...
+2025-01-14 05:11:14 [INFO] Retrieving info for user: c22643
+2025-01-14 05:11:17 [ERROR] Error: Cannot validate argument on parameter 'Credential'. The argument is null or empty. Provide an argument that is not null or empty, and then try the command again.
+2025-01-14 05:12:10 [INFO] Connecting to luxgroup.net...
+2025-01-14 05:12:10 [INFO] Retrieving info for user: c22643
+2025-01-14 05:13:34 [INFO] Successfully retrieved user information!
+2025-01-14 05:13:34 [INFO] C22643 account is in good standing.
+2025-01-14 05:13:44 [INFO] Connecting to us.essilor.pvt...
+2025-01-14 05:13:44 [INFO] Retrieving info for user: joseph.marilla
+2025-01-14 05:14:32 [INFO] Successfully retrieved user information!
+2025-01-14 05:14:32 [INFO] Joseph.MARILLA account is in good standing.
+2025-01-14 05:15:09 [INFO] Connecting to elcorp.group...
+2025-01-14 05:15:09 [INFO] Retrieving info for user: edgar.casallas
+2025-01-14 05:16:08 [INFO] Successfully retrieved user information!
+2025-01-14 05:16:08 [INFO] edgar.casallas account is in good standing.
+2025-01-14 05:16:17 [INFO] Connecting to elcorp.group...
+2025-01-14 05:16:17 [INFO] Retrieving info for user: edgar.casallas
+2025-01-14 05:16:23 [ERROR] Error: Cannot validate argument on parameter 'Credential'. The argument is null or empty. Provide an argument that is not null or empty, and then try the command again.
+2025-01-14 05:31:30 [INFO] Connecting to luxgroup.net...
+2025-01-14 05:31:30 [INFO] Retrieving info for user: 229484
+2025-01-14 05:31:44 [INFO] Successfully retrieved user information!
+2025-01-14 05:31:44 [WARNING] ALERTS FOR 229484:
+2025-01-14 05:31:44 [WARNING] - Password is expired.
+2025-01-14 06:05:59 [ERROR] Error: A parameter cannot be found that matches parameter name 'AdConfig'.
+2025-01-14 06:06:04 [ERROR] Error: A parameter cannot be found that matches parameter name 'AdConfig'.
+2025-01-14 06:06:11 [ERROR] Error: A parameter cannot be found that matches parameter name 'AdConfig'.
+2025-01-14 06:22:38 [ERROR] Error: A parameter cannot be found that matches parameter name 'AdConfig'.
+2025-01-14 15:46:49 [ERROR] Error: Failed to get credentials: Cannot bind argument to parameter 'Path' because it is null.
+2025-01-14 22:16:09 [ERROR] Error: Failed to get credentials: Cannot bind argument to parameter 'Path' because it is null.
